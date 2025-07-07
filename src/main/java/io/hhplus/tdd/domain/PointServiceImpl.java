@@ -1,6 +1,7 @@
 package io.hhplus.tdd.domain;
 
 import io.hhplus.tdd.point.PointHistory;
+import io.hhplus.tdd.point.TransactionType;
 import io.hhplus.tdd.point.UserPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,23 +11,41 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PointServiceImpl implements PointService{
+
+    private final PointReader pointReader;
+    private final PointStore pointStore;
+    private final PointPolicy pointPolicy;
+
+
     @Override
     public UserPoint getPoint(long id) {
-        return null;
+        return pointReader.getPoint(id).toUserPoint();
     }
 
     @Override
     public List<PointHistory> getHistories(long id) {
-        return null;
+        return pointReader.getHistories(id);
     }
 
     @Override
     public UserPoint charge(long id, long amount) {
-        return null;
+        pointPolicy.validateCharge(amount);
+        Point point = pointReader.getPoint(id);
+        point.charge(amount);
+
+        pointStore.store(point.getId(), point.getPoint());
+        pointStore.store(point.getId(), amount, TransactionType.CHARGE, System.currentTimeMillis());
+        return pointReader.getPoint(id).toUserPoint();
     }
 
     @Override
     public UserPoint use(long id, long amount) {
-        return null;
+        Point point = pointReader.getPoint(id);
+        pointPolicy.validateUse(point.getPoint(), amount);
+        point.use(amount);
+
+        pointStore.store(id, point.getPoint());
+        pointStore.store(id, amount, TransactionType.USE, System.currentTimeMillis());
+        return pointReader.getPoint(id).toUserPoint();
     }
 }
