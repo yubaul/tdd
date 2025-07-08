@@ -3,9 +3,9 @@ package io.hhplus.tdd.infra;
 import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.domain.PointStore;
-import io.hhplus.tdd.point.PointHistory;
-import io.hhplus.tdd.point.TransactionType;
-import io.hhplus.tdd.point.UserPoint;
+import io.hhplus.tdd.database.PointHistory;
+import io.hhplus.tdd.database.TransactionType;
+import io.hhplus.tdd.database.UserPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

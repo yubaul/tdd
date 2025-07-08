@@ -4,7 +4,7 @@ import io.hhplus.tdd.database.PointHistoryTable;
 import io.hhplus.tdd.database.UserPointTable;
 import io.hhplus.tdd.domain.Point;
 import io.hhplus.tdd.domain.PointReader;
-import io.hhplus.tdd.point.PointHistory;
+import io.hhplus.tdd.database.PointHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

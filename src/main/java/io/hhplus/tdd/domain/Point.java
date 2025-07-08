@@ -1,6 +1,6 @@
 package io.hhplus.tdd.domain;
 
-import io.hhplus.tdd.point.UserPoint;
+import io.hhplus.tdd.database.UserPoint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

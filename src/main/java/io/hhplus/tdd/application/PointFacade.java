@@ -1,8 +1,8 @@
 package io.hhplus.tdd.application;
 
 import io.hhplus.tdd.domain.PointService;
-import io.hhplus.tdd.point.PointHistory;
-import io.hhplus.tdd.point.UserPoint;
+import io.hhplus.tdd.database.PointHistory;
+import io.hhplus.tdd.database.UserPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package io.hhplus.tdd.domain;
 
-import io.hhplus.tdd.point.PointHistory;
-import io.hhplus.tdd.point.TransactionType;
-import io.hhplus.tdd.point.UserPoint;
+import io.hhplus.tdd.database.PointHistory;
+import io.hhplus.tdd.database.TransactionType;
+import io.hhplus.tdd.database.UserPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class PointServiceImpl implements PointService{
 
     @Override
     public UserPoint charge(long id, long amount) {
-        pointPolicy.validateCharge(amount);
         Point point = pointReader.getPoint(id);
+        pointPolicy.validateCharge(point.getPoint(), amount);
         point.charge(amount);
 
         pointStore.store(point.getId(), point.getPoint());
