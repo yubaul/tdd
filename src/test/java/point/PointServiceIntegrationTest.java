@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class PointServiceUnitTest {
+public class PointServiceIntegrationTest {
 
     @InjectMocks
     PointServiceImpl pointService;
