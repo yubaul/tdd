@@ -48,7 +48,7 @@ public class PointServiceUnitTest {
     }
 
     @Test
-    void 특정유저_충전이용내역_조회하기(){
+    void 특정유저_포인트_이용내역_조회하기(){
         // given
         long userId = 1L;
         long amount = 5_000L;
@@ -72,7 +72,7 @@ public class PointServiceUnitTest {
     }
 
     @Test
-    void 특정유저_포인트_충전하기(){
+    void 특정유저_포인트_충전하기_예외_없음(){
         // given
         // 봉유 포인트 0원에서 5,000원 충전
         long userId = 1L;
@@ -105,7 +105,7 @@ public class PointServiceUnitTest {
     }
 
     @Test
-    void 특정유저_충전시_음수금액_예외() {
+    void 특정유저_포인트_충전시_음수금액_예외() {
         // given
         long userId = 1L;
         long amountToCharge = -5_000L;
@@ -126,7 +126,7 @@ public class PointServiceUnitTest {
     }
 
     @Test
-    void 특정유저_충전시_최대포인트_초과_예외(){
+    void 특정유저_포인트_충전시_최대포인트_초과_예외(){
         long userId = 1L;
         long amountToCharge = 60_000L;
         long currentPoint = 50_000;
@@ -145,7 +145,7 @@ public class PointServiceUnitTest {
     }
 
     @Test
-    void 특정유저_포인트_사용하기(){
+    void 특정유저_포인트_사용하기_예외_없음(){
         // given
         // 보유 포인트 50,000원 중 5,000원 사용
         long userId = 1;
