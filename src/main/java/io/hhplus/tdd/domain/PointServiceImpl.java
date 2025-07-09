@@ -14,7 +14,6 @@ public class PointServiceImpl implements PointService{
 
     private final PointReader pointReader;
     private final PointStore pointStore;
-    private final PointPolicy pointPolicy;
 
 
     @Override
@@ -30,7 +29,6 @@ public class PointServiceImpl implements PointService{
     @Override
     public UserPoint charge(long id, long amount) {
         Point point = pointReader.getPoint(id);
-        pointPolicy.validateCharge(point.getPoint(), amount);
         point.charge(amount);
 
         pointStore.store(point.getId(), point.getPoint());
@@ -41,7 +39,6 @@ public class PointServiceImpl implements PointService{
     @Override
     public UserPoint use(long id, long amount) {
         Point point = pointReader.getPoint(id);
-        pointPolicy.validateUse(point.getPoint(), amount);
         point.use(amount);
 
         pointStore.store(id, point.getPoint());

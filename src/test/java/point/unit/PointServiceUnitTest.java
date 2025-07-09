@@ -1,4 +1,4 @@
-package point;
+package point.unit;
 
 import io.hhplus.tdd.domain.*;
 import io.hhplus.tdd.database.PointHistory;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class PointServiceIntegrationTest {
+public class PointServiceUnitTest {
 
     @InjectMocks
     PointServiceImpl pointService;
@@ -26,9 +26,6 @@ public class PointServiceIntegrationTest {
 
     @Mock
     PointStore pointStore;
-
-    @Mock
-    PointPolicy pointPolicy;
 
 
     @Test
@@ -102,7 +99,6 @@ public class PointServiceIntegrationTest {
         // Point.charge() 메소드에서 포인트 증가가 된지 검증
         // 호출 했을 시 실제 기대했던 매개변수와 전달된 매개변수가 일치하는지 검증
         Assertions.assertThat(result.point()).isEqualTo(amountToCharge);
-        verify(pointPolicy, times(1)).validateCharge(initPoint,amountToCharge);
         verify(pointReader, times(2)).getPoint(userId);
         verify(pointStore, times(1)).store(userId, amountToCharge);
         verify(pointStore, times(1)).store(eq(userId), eq(amountToCharge), eq(TransactionType.CHARGE), any(Long.class));
@@ -122,9 +118,6 @@ public class PointServiceIntegrationTest {
 
         when(pointReader.getPoint(userId)).thenReturn(point);
 
-        // 정책에서 예외가 발생하도록 설정
-        doThrow(new RuntimeException("충전 포인트는 0보다 커야 합니다."))
-                .when(pointPolicy).validateCharge(eq(currentPoint), eq(amountToCharge));
 
         // when & then
         Assertions.assertThatThrownBy(() -> pointService.charge(userId, amountToCharge))
@@ -144,10 +137,6 @@ public class PointServiceIntegrationTest {
             .build();
 
         when(pointReader.getPoint(userId)).thenReturn(point);
-
-        // 정책에서 예외가 발생하도록 설정
-        doThrow(new RuntimeException("보유할 수 있는 최대 포인트(100,000원)를 초과할 수 없습니다."))
-                .when(pointPolicy).validateCharge(eq(currentPoint), eq(amountToCharge));
 
         // when & then
         Assertions.assertThatThrownBy(() -> pointService.charge(userId, amountToCharge))
@@ -185,7 +174,6 @@ public class PointServiceIntegrationTest {
         // Point.usr() 메소드에서 포인트 차감이 된지 검증
         // 호출 했을 시 실제 기대했던 매개변수와 전달된 매개변수가 일치하는지 검증
         Assertions.assertThat(result.point()).isEqualTo(resultAmount);
-        verify(pointPolicy, times(1)).validateUse(point, amountToUse);
         verify(pointReader, times(2)).getPoint(userId);
         verify(pointStore, times(1)).store(userId, resultAmount);
         verify(pointStore, times(1)).store(eq(userId), eq(amountToUse), eq(TransactionType.USE), any(Long.class));
@@ -205,10 +193,6 @@ public class PointServiceIntegrationTest {
                 .build();
 
         when(pointReader.getPoint(userId)).thenReturn(point);
-
-        // 정책에서 예외가 발생하도록 설정
-        doThrow(new RuntimeException("사용 포인트는 0보다 커야 합니다."))
-                .when(pointPolicy).validateUse(eq(currentPoint), eq(amountToUse));
 
         // when & then
         Assertions.assertThatThrownBy(() -> pointService.use(userId, amountToUse))
@@ -230,10 +214,6 @@ public class PointServiceIntegrationTest {
                 .build();
 
         when(pointReader.getPoint(userId)).thenReturn(point);
-
-        // 정책에서 예외가 발생하도록 설정
-        doThrow(new RuntimeException("보유 포인트보다 많이 사용할 수 없습니다."))
-                .when(pointPolicy).validateUse(eq(currentPoint), eq(amountToUse));
 
         // when & then
         Assertions.assertThatThrownBy(() -> pointService.use(userId, amountToUse))
