@@ -35,7 +35,7 @@ public class PointServiceIntegrationTest {
     @Test
     void 특정유저_포인트_이용내역_조회하기(){
         // given
-        long userId = 2L;
+        long userId = 11L;
         long amount = 5_000L;
         long amountToCharge = 10_000L;
         long amountToUse = 5_000L;
